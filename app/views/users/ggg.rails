@@ -1,0 +1,23 @@
+
+<h3>ジャンル検索</h3>
+
+<nav><%= link_to "ケーキ",public_products_path %></nav>
+
+<nav><%= link_to "焼き菓子",public_products_path %></nav>
+
+<nav><%= link_to "プリン",public_products_path %></nav>
+
+<nav><%= link_to "キャンディ",public_products_path%></nav>
+
+
+
+
+<h1>投稿一覧</h1>
+   <% @products.each do |product| %>
+      <p>タイトル</p>
+      <span><%= product.name %></span>
+       <p></p>
+  <%= attachment_image_tag product, :product_image, :fill, 100, 100, format: 'jpeg' %>
+   <% end %>
+
+

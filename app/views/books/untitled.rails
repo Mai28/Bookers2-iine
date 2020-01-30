@@ -1,0 +1,10 @@
+<% if book.commented_by?(current_user) %>
+ <%= link_to   book_bookcomments_path(book.id),  method: :delete do %>
+        <%= book.bookcomments.count %>
+   <% end %>
+<% else %>
+ <%= link_to   book_bookcomments_path(book.id),  method: :post do %>
+            <%= book.bookcomments.count %>
+
+    <% end %>
+    <% end %>
