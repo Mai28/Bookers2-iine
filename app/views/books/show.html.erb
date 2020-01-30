@@ -99,23 +99,36 @@
 <% end %>
 
 
-<% @bookcomments.each do |comment|%>
-<%= comment.comment %>
-<% end %>
 
-<% if @book.commented_by?(current_user) %>
-  <td>
-  <%= link_to   book_bookcomments_path(@book.id),  method: :delete do %>
-  コメント数: <%= @book.bookcomments.count %>
-  </td>
-<% end %>
-<% else %>
-  <td>
-  <%= link_to   book_bookcomments_path(@book.id),  method: :post do %>
-  コメント数: <%= @book.bookcomments.count %>
-  </td>
-<% end %>
-<% end %>
+
+
+      <% @bookcomments.each do |bookcomment| %>
+       <tr>
+          <td>
+        <%= link_to user_path(bookcomment.user), class: "user_#{bookcomment.user.id}" do %>
+              <%= attachment_image_tag bookcomment.user, :profile_image, :fill, 50, 50, fallback: "no_image.jpg", size: "50x50" %><br>
+              <%= bookcomment.user.name %>
+            <% end %>
+          </td>
+          <td><%= bookcomment.comment %></td>
+          <% unless current_user != bookcomment.user %>
+            <td><%= link_to 'destroy', book_bookcomments_path(bookcomment.id), class: 'btn-sm btn-danger', method: :delete %></td>
+          <% end %>
+        </tr>
+      <% end %>
+  
+
+
+
+
+
+
+
+
+
+
+
+
 
 </div>
 </div>

@@ -1,12 +1,30 @@
 class BookcommentsController < ApplicationController
+	before_action :authenticate_user!
+
 def create
 	@book = Book.find(params[:book_id])
-	comment = Bookcomment.new(bookcomment_params)
-	comment.book_id = @book.id
-	comment.user_id = current_user.id
-	comment.save
-	redirect_to  books_path
-end
+	@book_new = Book.new
+	@bookcomment = @book.bookcomments.new(bookcomment_params)
+	@bookcomment.user_id = current_user.id
+	if @bookcomment.save
+	flash[:success] = "Comment was successfully created."
+      redirect_to book_path(@book)
+    else
+    	flash[:notice] = ' errors prohibited this obj from being saved:'
+      @bookcomments = Bookcomment.where(book_id: @book.id)
+      render '/books/show'
+    end
+  end
+
+
+ def destroy
+    @bookcomment = Bookcomment.find(params[:book_id])
+    if @bookcomment.user != current_user
+      redirect_to request.referer
+    end
+    @bookcomment.destroy
+    redirect_to request.referer
+    end
 
 
 private
